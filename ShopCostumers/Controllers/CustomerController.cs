@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ShopCostumers.Domain.Commands.Handlers;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ShopCostumers.Domain.Commands.Requests;
 using ShopCostumers.Domain.Commands.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShopCostumers.Controllers
@@ -15,9 +11,9 @@ namespace ShopCostumers.Controllers
     public class CustomerController : ControllerBase
     {
         [HttpPost]
-        public CreateCustomerResponse Create([FromServices] ICreateCustomerHandler handler, [FromBody]CreateCustomerRequest request)
+        public Task <CreateCustomerResponse> Create([FromServices] IMediator mediator, [FromBody]CreateCustomerRequest request)
         {
-           return handler.Handle(request);
+           return mediator.Send(request);
         }
     }
 }
